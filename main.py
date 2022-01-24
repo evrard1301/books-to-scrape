@@ -1,7 +1,6 @@
 from book import BookFetcher, BookExporter
 from category import CategoryFetcher, CategoryExporter
 
-
 def main():
     print('Books 2 Scrape')
 

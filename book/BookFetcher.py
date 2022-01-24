@@ -3,11 +3,10 @@ import re
 from bs4 import BeautifulSoup
 from .Book import *
 
-
 class BookFetcher:
-    def __init__(self, page_url):
+    def __init__(self, page_url, session):
         self.page_url = page_url
-        self.html = requests.get(self.page_url).content
+        self.html = session.get(self.page_url).content
 
     def exec(self):
         root = BeautifulSoup(self.html, 'html.parser')
