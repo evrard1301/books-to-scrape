@@ -1,10 +1,15 @@
 from book import BookFetcher, BookExporter
+from category import CategoryFetcher
 
-if __name__ == '__main__':
+
+def main():
     print('Books 2 Scrape')
 
-    fetcher = BookFetcher('http://books.toscrape.com/catalogue/the-selfish-gene_81/index.html')
-    book = fetcher.exec()
+    fetcher = CategoryFetcher('http://books.toscrape.com/catalogue/category/books/mystery_3/index.html')
+    category = fetcher.exec()
 
-    exporter = BookExporter(book)
-    exporter.exec(book.info.title + '.csv')
+    print(category)
+
+
+if __name__ == "__main__":
+    main()
