@@ -19,6 +19,7 @@ class BookPage:
         self.number_available = nb_available
         self.review_rating = review
 
+
 class Book:
     def __init__(self, info, page, price):
         self.info = info
