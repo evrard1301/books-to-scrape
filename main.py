@@ -1,16 +1,7 @@
-from book import BookFetcher, BookExporter
-from category import CategoryFetcher, CategoryExporter
+import requests
 
-def main():
-    print('Books 2 Scrape')
-
-    fetcher = CategoryFetcher('http://books.toscrape.com/catalogue/category/books/mystery_3/index.html')
-    category = fetcher.exec()
-
-    exporter = CategoryExporter(category)
-
-    with open(f'{category.name}.csv', 'w') as file:
-        exporter.exec(file)
+import books_to_scrap
 
 if __name__ == "__main__":
-    main()
+    app = books_to_scrap.App()
+    app.run('output')

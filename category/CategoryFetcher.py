@@ -6,12 +6,13 @@ import concurrent.futures
 
 
 class CategoryFetcher:
-    def __init__(self, url):
-        self.session = requests.Session()
+    def __init__(self, url, session):
+        self.session = session
         self.url = '/'.join(url.split('/')[:-1])
         self.root = BeautifulSoup(self.session.get(self.url + '/' + 'index.html').content, 'html.parser')
 
         self.page_count = self.get_page_count(self.root)
+
         self.max_workers = 1024
 
     def exec(self):
@@ -69,4 +70,6 @@ class CategoryFetcher:
         else:
             page_text = page_text.text
         page_text = page_text[page_text.find('of') + 2:]
-        return int(page_text)
+        res = int(page_text)
+        if res == 0: res += 1
+        return res

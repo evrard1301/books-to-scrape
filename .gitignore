@@ -1,6 +1,7 @@
 __pycache__
 env
 .idea
+output
 *~*
 *.csv
 *.prof
