@@ -1,7 +1,9 @@
+import concurrent
 import os
 import threading
 import requests
 
+from book import BookImageDownloader
 from books_to_scrap.CategoryCollector import CategoryCollector
 from category import CategoryFetcher, CategoryExporter
 
@@ -9,39 +11,52 @@ from category import CategoryFetcher, CategoryExporter
 class App:
     def __init__(self):
         self.session = requests.Session()
+        self.categories = []
+        self.max_workers = 256
 
     def run(self, output_dir):
         if not os.path.exists(output_dir):
             os.mkdir(output_dir)
 
-        self.run_single(output_dir)
+        self.run_categories(output_dir)
+        self.run_images(output_dir)
 
-    def run_single(self, output_dir):
+    def run_categories(self, output_dir):
         collector = CategoryCollector(self.session)
         category_urls = collector.collect()
 
-        counter = 0
+        categories = []
+        self.categories = categories
 
         def export_category(url, output_dir):
             category = self.fetch_category(url)
+            categories.append(category)
             self.export_category(category, output_dir)
 
-        threads = []
+        with concurrent.futures.ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+            for url in category_urls:
+                executor.submit(export_category, url, output_dir)
+        executor.shutdown(wait=True)
 
-        for url in category_urls:
-            t = threading.Thread(target=export_category, args=(url, output_dir))
-            threads.append(t)
-            t.start()
-            counter += 1
+    def run_images(self, output_dir):
+        session = self.session
+        mutex = threading.Lock()
 
-        for t in threads:
-            t.join()
+        def dl_image(the_book):
+            dl = BookImageDownloader(the_book, session, output_dir)
+            dl.exec()
 
-        print('done')
+        with concurrent.futures.ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+            for category in self.categories:
+                executor.map(dl_image, category.books)
+                #for book in category.books:
+                #    executor.submit(dl_image, book)
+        executor.shutdown(wait=True)
 
     def fetch_category(self, url):
         fetcher = CategoryFetcher(url, self.session)
         return fetcher.exec()
+
 
     def export_category(self, category, output_dir):
         exporter = CategoryExporter(category)

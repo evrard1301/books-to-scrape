@@ -13,7 +13,7 @@ class CategoryFetcher:
 
         self.page_count = self.get_page_count(self.root)
 
-        self.max_workers = 1024
+        self.max_workers = 256
 
     def exec(self):
         category = Category(
@@ -33,7 +33,7 @@ class CategoryFetcher:
                     suffix = f'/page-{i + 1}.html'
 
                 executor.submit(self.exec_page, suffix, category)
-
+        executor.shutdown(wait=True)
         return category
 
     def exec_page(self, page, category):
@@ -59,6 +59,8 @@ class CategoryFetcher:
         with concurrent.futures.ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             for link in book_links:
                 executor.submit(get_book, link)
+
+        executor.shutdown(wait=True)
 
         for book in books:
             category.add_book(book)

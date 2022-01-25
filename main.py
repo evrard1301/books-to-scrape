@@ -1,5 +1,3 @@
-import requests
-
 import books_to_scrap
 
 if __name__ == "__main__":

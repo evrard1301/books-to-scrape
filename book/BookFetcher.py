@@ -3,10 +3,12 @@ import re
 from bs4 import BeautifulSoup
 from .Book import *
 
+
 class BookFetcher:
     def __init__(self, page_url, session):
         self.page_url = page_url
-        self.html = session.get(self.page_url).content
+        self.session = session
+        self.html = self.session.get(self.page_url).content
 
     def exec(self):
         root = BeautifulSoup(self.html, 'html.parser')
@@ -24,7 +26,8 @@ class BookFetcher:
 
         page = BookPage(
             self.page_url, # page url
-            root.find('img')['src'], # image_url
+            'http://books.toscrape.com/' +
+            '/'.join(root.find('img')['src'].split('/')[2:]), # image_url
             int(root.find('p', class_='instock').text.strip()[
                 nb_available_prefix : -nb_available_suffix
             ]), # number available

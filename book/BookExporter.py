@@ -1,5 +1,6 @@
 import csv
 
+
 class BookExporter:
     def __init__(self, book):
         self.book = book
