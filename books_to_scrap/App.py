@@ -1,8 +1,5 @@
 import os
 import threading
-from concurrent.futures import ThreadPoolExecutor
-import asyncio
-
 import requests
 
 from books_to_scrap.CategoryCollector import CategoryCollector
