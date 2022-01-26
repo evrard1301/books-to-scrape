@@ -13,11 +13,17 @@ class BookFetcher:
     def exec(self):
         root = BeautifulSoup(self.html, 'html.parser')
 
+        desc = root.find('div', id='product_description')
+
+        if desc is not None:
+            desc = desc.next_sibling.next_sibling.text
+        else:
+            desc = ''
+
         info = BookInfo(
             root.find_all('td')[0].text, # upc
             root.find('h1').text, # title
-            root.find('div', id='product_description')
-            .next_sibling.next_sibling.text, # description
+            desc, # description
             root.find('a', href=re.compile('category/books/')).text # category
         )
 

@@ -14,6 +14,7 @@ class App:
         self.session = requests.Session()
         self.categories = []
         self.max_workers = self.config.jobs
+        self.books_count = 0
 
     def run(self):
         output_dir = self.config.csv_output_dir
@@ -43,6 +44,7 @@ class App:
             progress.update(1)
             categories.append(category)
             self.export_category(category, output_dir)
+            self.books_count += len(category.books)
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             for url in category_urls:
@@ -53,7 +55,7 @@ class App:
     def run_images(self, output_dir):
         session = self.session
 
-        progress = tqdm(total=997, desc='Load images')
+        progress = tqdm(total=self.books_count, desc='Load images')
 
         def dl_image(the_book):
             dl = BookImageDownloader(the_book, session, output_dir)
