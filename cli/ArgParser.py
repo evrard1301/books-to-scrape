@@ -7,15 +7,22 @@ from books_to_scrap import Configuration
 class ArgParser:
     def __init__(self):
         self.parser = argparse.ArgumentParser('books2scrap')
-        self.parser.add_argument('--version',
+        self.parser.add_argument('--version', '-v',
                                  action='store_true',
                                  help='show current version')
 
         self.parser.add_argument('--csv-dir',
-                                 type=str)
+                                 type=str,
+                                 help='set the csv files output directory')
 
         self.parser.add_argument('--img-dir',
-                                 type=str)
+                                 type=str,
+                                 help='set the image files output directory')
+
+        self.parser.add_argument('--jobs', '-j',
+                                 type=int,
+                                 help='set the jobs number')
+
         self.args = self.parser.parse_args(sys.argv[1:])
 
         if self.args.version:
@@ -29,6 +36,9 @@ class ArgParser:
 
         if self.args.img_dir is not None:
             conf.img_output_dir = self.args.img_dir
+
+        if self.args.jobs is not None:
+            conf.jobs = self.args.jobs
 
         return conf
 
