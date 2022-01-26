@@ -14,6 +14,8 @@ class ArgParser:
         self.parser.add_argument('--csv-dir',
                                  type=str)
 
+        self.parser.add_argument('--img-dir',
+                                 type=str)
         self.args = self.parser.parse_args(sys.argv[1:])
 
         if self.args.version:
@@ -24,6 +26,9 @@ class ArgParser:
 
         if self.args.csv_dir is not None:
             conf.csv_output_dir = self.args.csv_dir
+
+        if self.args.img_dir is not None:
+            conf.img_output_dir = self.args.img_dir
 
         return conf
 

@@ -17,10 +17,17 @@ class App:
 
     def run(self):
         output_dir = self.config.csv_output_dir
+
         if not os.path.exists(output_dir):
-            os.mkdir(output_dir)
+            os.makedirs(output_dir)
 
         self.run_categories(output_dir)
+
+        output_dir = self.config.img_output_dir
+
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+
         self.run_images(output_dir)
 
     def run_categories(self, output_dir):
