@@ -6,4 +6,4 @@ if __name__ == "__main__":
     config = args.configuration()
 
     app = books_to_scrap.App(config)
-    app.run('output')
+    app.run()

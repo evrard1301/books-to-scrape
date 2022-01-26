@@ -10,13 +10,21 @@ class ArgParser:
         self.parser.add_argument('--version',
                                  action='store_true',
                                  help='show current version')
-        args = self.parser.parse_args(sys.argv[1:])
 
-        if args.version:
+        self.parser.add_argument('--csv-dir',
+                                 type=str)
+
+        self.args = self.parser.parse_args(sys.argv[1:])
+
+        if self.args.version:
             self.version()
 
     def configuration(self):
         conf = Configuration()
+
+        if self.args.csv_dir is not None:
+            conf.csv_output_dir = self.args.csv_dir
+
         return conf
 
     def version(self):

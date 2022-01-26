@@ -15,7 +15,8 @@ class App:
         self.categories = []
         self.max_workers = self.config.jobs
 
-    def run(self, output_dir):
+    def run(self):
+        output_dir = self.config.csv_output_dir
         if not os.path.exists(output_dir):
             os.mkdir(output_dir)
 
