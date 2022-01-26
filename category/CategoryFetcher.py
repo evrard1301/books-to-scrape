@@ -6,14 +6,15 @@ import concurrent.futures
 
 
 class CategoryFetcher:
-    def __init__(self, url, session):
+    def __init__(self, app, url, session):
+        self.app = app
         self.session = session
         self.url = '/'.join(url.split('/')[:-1])
         self.root = BeautifulSoup(self.session.get(self.url + '/' + 'index.html').content, 'html.parser')
 
         self.page_count = self.get_page_count(self.root)
 
-        self.max_workers = 256
+        self.max_workers = self.app.config.jobs
 
     def exec(self):
         category = Category(

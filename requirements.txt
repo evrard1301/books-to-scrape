@@ -7,4 +7,5 @@ requests==2.27.1
 snakeviz==2.1.1
 soupsieve==2.3.1
 tornado==6.1
+tqdm==4.62.3
 urllib3==1.26.8

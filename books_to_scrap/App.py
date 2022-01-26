@@ -9,10 +9,11 @@ from category import CategoryFetcher, CategoryExporter
 
 
 class App:
-    def __init__(self):
+    def __init__(self, config):
+        self.config = config
         self.session = requests.Session()
         self.categories = []
-        self.max_workers = 256
+        self.max_workers = self.config.jobs
 
     def run(self, output_dir):
         if not os.path.exists(output_dir):
@@ -43,7 +44,6 @@ class App:
 
     def run_images(self, output_dir):
         session = self.session
-        mutex = threading.Lock()
 
         progress = tqdm(total=997, desc='Load images')
 
@@ -60,12 +60,11 @@ class App:
         progress.close()
 
     def fetch_category(self, url):
-        fetcher = CategoryFetcher(url, self.session)
+        fetcher = CategoryFetcher(self, url, self.session)
         return fetcher.exec()
-
 
     def export_category(self, category, output_dir):
         exporter = CategoryExporter(category)
 
-        with open(os.path.join(os.getcwd(), output_dir, category.name + '.csv'), 'w') as file:
+        with open(os.path.join(os.getcwd(), output_dir, category.name + '.csv'), 'w', encoding='utf-8') as file:
             exporter.exec(file)
