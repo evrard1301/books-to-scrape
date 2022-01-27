@@ -1,4 +1,3 @@
-import requests
 from bs4 import BeautifulSoup
 from book import BookFetcher
 from category import Category
@@ -13,7 +12,9 @@ class CategoryFetcher:
         self.app = app
         self.session = session
         self.url = '/'.join(url.split('/')[:-1])
-        self.root = BeautifulSoup(self.session.get(self.url + '/' + 'index.html').content, 'html.parser')
+        self.root = BeautifulSoup(
+            self.session.get(self.url + '/' + 'index.html')
+                .content, 'html.parser')
 
         self.page_count = self.get_page_count(self.root)
 
@@ -29,7 +30,10 @@ class CategoryFetcher:
 
     def exec_pages(self, category):
 
-        with concurrent.futures.ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+        with concurrent\
+                .futures\
+                .ThreadPoolExecutor(max_workers=self.max_workers)\
+                as executor:
             for i in range(0, self.page_count):
                 if i == 0:
                     suffix = '/index.html'
@@ -56,14 +60,17 @@ class CategoryFetcher:
 
         books = []
 
-        def get_book(link):
+        def get_book(my_link):
             try:
-                fetcher = BookFetcher(link, self.session)
+                fetcher = BookFetcher(my_link, self.session)
                 books.append(fetcher.exec())
             except Exception as err:
-                print(f'Error ferching {link}')
+                print(f'Error fetching {link} ({err})')
 
-        with concurrent.futures.ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+        with concurrent\
+                .futures\
+                .ThreadPoolExecutor(max_workers=self.max_workers)\
+                as executor:
             for link in book_links:
                 executor.submit(get_book, link)
 
@@ -72,7 +79,8 @@ class CategoryFetcher:
         for book in books:
             category.add_book(book)
 
-    def get_page_count(self, root):
+    @staticmethod
+    def get_page_count(root):
         page_text = root.find('li', class_='current')
         if page_text is None:
             page_text = 'of 0'
@@ -80,5 +88,6 @@ class CategoryFetcher:
             page_text = page_text.text
         page_text = page_text[page_text.find('of') + 2:]
         res = int(page_text)
-        if res == 0: res += 1
+        if res == 0:
+            res += 1
         return res

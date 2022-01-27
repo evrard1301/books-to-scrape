@@ -1,5 +1,6 @@
 import csv
 
+
 class BookExporter:
     """
         Export a book in the csv format to a given file.

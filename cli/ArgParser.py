@@ -42,12 +42,13 @@ class ArgParser:
 
         return conf
 
-    def version(self):
+    @staticmethod
+    def version():
         print('books2scrap v0.0.0')
         exit(0)
 
-    def help(self):
+    @staticmethod
+    def help():
         print('books2scrap usage:')
         print('\t--help, show this help message')
         print('\t--version, show books2scrap version')
-
