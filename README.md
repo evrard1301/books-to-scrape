@@ -2,7 +2,6 @@
 
 ![logo](https://user.oc-static.com/upload/2020/09/22/1600779540759_Online%20bookstore-01.png)
 
----
 
 Books to scrape is a learning project proposed by [OpenClassRooms](https://openclassrooms.com/fr/).
 
@@ -11,8 +10,6 @@ This software is a web scraper gathering books data from the website [books.tosc
 By default, it extracts book information within **CSV files** in the ``output/csv``directory and collects **books images** inside  ``output/img``.
 
 ## Quick Start
-
----
 
 ### Install and run books2scrape
 
@@ -59,8 +56,6 @@ python books2scrape.py -j 8
 ```
 
 ## License
-
----
 
 books2scrape is released under the MIT license.
 See the LICENSE.txt file for more information.
