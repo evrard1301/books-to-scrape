@@ -7,7 +7,7 @@ Books to scrape is a learning project proposed by [OpenClassRooms](https://openc
 
 This software is a web scraper gathering books data from the website [books.toscrape.com](http://books.toscrape.com/).
 
-By default, it extracts book information within **CSV files** in the ``output/csv``directory and collects **books images** inside  ``output/img``.
+By default, it extracts book information within **CSV files** in the ``output/csv`` directory and collects **books images** inside  ``output/img``.
 
 ## Quick Start
 
@@ -19,7 +19,7 @@ python3 -m venv env
 source env/bin/activate
 
 # clone the project
-git clone https://github.com/evrard1301/books-to-scrape
+git clone https://github.com/evrard1301/books-to-scrape.git
 cd books-to-scrape
 
 # install dependencies
