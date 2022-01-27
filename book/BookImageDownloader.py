@@ -1,6 +1,10 @@
 import os
 
+
 class BookImageDownloader:
+    """
+        Download the main image of a given book inside a given output directory.
+    """
     def __init__(self, book, session, output_dir):
         self.book = book
         self.session = session

@@ -9,6 +9,10 @@ from category import CategoryFetcher, CategoryExporter
 
 
 class App:
+    """
+        Launch the gathering of all books by categories and theirs images.
+        App uses a configuration object to set up threads and output directories.
+    """
     def __init__(self, config):
         self.config = config
         self.session = requests.Session()

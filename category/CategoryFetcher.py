@@ -6,6 +6,9 @@ import concurrent.futures
 
 
 class CategoryFetcher:
+    """
+        Create a category object containing book objects.
+    """
     def __init__(self, app, url, session):
         self.app = app
         self.session = session

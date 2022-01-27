@@ -1,4 +1,7 @@
 class Configuration:
+    """
+        Holds the configuration of books2scrape.
+    """
     def __init__(self):
         self.version = '0.0.0'
         self.jobs = 64

@@ -5,6 +5,9 @@ from .Book import *
 
 
 class BookFetcher:
+    """
+        Gather book information from a given url inside a book object.
+    """
     def __init__(self, page_url, session):
         self.page_url = page_url
         self.session = session

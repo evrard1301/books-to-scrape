@@ -1,7 +1,9 @@
 import csv
 
-
 class BookExporter:
+    """
+        Export a book in the csv format to a given file.
+    """
     def __init__(self, book):
         self.book = book
 
