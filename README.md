@@ -7,7 +7,7 @@ Books to scrape is a learning project proposed by [OpenClassRooms](https://openc
 
 This software is a web scraper gathering books data from the website [books.toscrape.com](http://books.toscrape.com/).
 
-By default, it extracts book information within **CSV files** in the ``output/csv`` directory and collects **books images** inside  ``output/img``.
+By default, it extracts book information within **CSV files** (one by book category) in the ``output/csv`` directory and collects **books images** inside  ``output/img``.
 
 ## Quick Start
 
@@ -41,7 +41,7 @@ python books2scrape.py
 The *.csv* output directory can be specified as the images one using the flags ``--csv-dir`` and ``--img-dir``.
 
 ```shell
-python books2scrape.py --csv-dir output_cvs --img-dir output_img
+python books2scrape.py --csv-dir output_csv --img-dir output_img
 ```
 
 ---

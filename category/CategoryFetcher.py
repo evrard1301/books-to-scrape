@@ -54,8 +54,11 @@ class CategoryFetcher:
         books = []
 
         def get_book(link):
-            fetcher = BookFetcher(link, self.session)
-            books.append(fetcher.exec())
+            try:
+                fetcher = BookFetcher(link, self.session)
+                books.append(fetcher.exec())
+            except Exception as err:
+                print(f'Error ferching {link}')
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             for link in book_links:
