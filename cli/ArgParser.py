@@ -23,6 +23,12 @@ class ArgParser:
                                  type=int,
                                  help='set the jobs number')
 
+        self.parser.add_argument('--tentatives', '-t',
+                                 type=int,
+                                 help='set the maximum of downloading attempts'
+                                 + ' after a failure'
+                                 )
+
         self.args = self.parser.parse_args(sys.argv[1:])
 
         if self.args.version:
@@ -39,6 +45,9 @@ class ArgParser:
 
         if self.args.jobs is not None:
             conf.jobs = self.args.jobs
+
+        if self.args.tentatives is not None:
+            conf.failure_attempts = self.args.tentatives
 
         return conf
 

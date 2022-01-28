@@ -55,6 +55,15 @@ This can be changed using the ``-j`` flags.
 python books2scrape.py -j 8
 ```
 
+---
+
+If a download error occurs, books2scrape will retry downloading it up
+to 8 times by default. Use the flag ``-t`` to change the amount of download tentatives.
+
+```shell
+# now books2scrape will try up to 16 times to download an image
+python books2scrape.py -t 16
+```
 ## License
 
 books2scrape is released under the MIT license.

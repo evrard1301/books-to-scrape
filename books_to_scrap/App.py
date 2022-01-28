@@ -72,7 +72,8 @@ class App:
                     except OSError:
                         pass
 
-                dl = BookImageDownloader(the_book, session, category_dir)
+                dl = BookImageDownloader(
+                    the_book, self.config, session, category_dir)
                 dl.exec()
 
                 progress.update(1)

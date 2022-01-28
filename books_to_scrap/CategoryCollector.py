@@ -5,6 +5,7 @@ class CategoryCollector:
     """
         Collect all the URLs of each book categories.
     """
+
     def __init__(self, session):
         self.session = session
         self.url = 'http://books.toscrape.com/index.html'

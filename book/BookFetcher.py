@@ -7,6 +7,7 @@ class BookFetcher:
     """
         Gather book information from a given url inside a book object.
     """
+
     def __init__(self, page_url, session):
         self.page_url = page_url
         self.session = session
@@ -34,8 +35,8 @@ class BookFetcher:
 
         page = BookPage(
             self.page_url,  # page url
-            'http://books.toscrape.com/' +
-            '/'.join(root.find('img')['src'].split('/')[2:]),  # image_url
+            'http://books.toscrape.com/'
+            + '/'.join(root.find('img')['src'].split('/')[2:]),  # image_url
             int(root.find('p', class_='instock').text.strip()[
                 nb_available_prefix: -nb_available_suffix
             ]),  # number available
