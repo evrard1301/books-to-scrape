@@ -13,6 +13,7 @@ class App:
         App uses a configuration object to set up
         threads and output directories.
     """
+
     def __init__(self, config):
         self.config = config
         self.session = requests.Session()
@@ -29,9 +30,6 @@ class App:
         self.run_categories(output_dir)
 
         output_dir = self.config.img_output_dir
-
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
 
         self.run_images(output_dir)
 
@@ -65,16 +63,32 @@ class App:
         progress = tqdm(total=self.books_count, desc='Load images')
 
         def dl_image(the_book):
-            dl = BookImageDownloader(the_book, session, output_dir)
-            dl.exec()
-            progress.update(1)
+            try:
+                dir_name = the_book.info.category.replace('/', '_')
+                category_dir = os.path.join(output_dir, dir_name)
+                if not os.path.exists(category_dir):
+                    try:
+                        os.makedirs(category_dir)
+                    except OSError:
+                        pass
+
+                dl = BookImageDownloader(the_book, session, category_dir)
+                dl.exec()
+
+                progress.update(1)
+            except Exception as err:
+                print(f'Error loading {the_book.info.title} image\n\n{err}')
 
         with concurrent\
                 .futures\
                 .ThreadPoolExecutor(max_workers=self.max_workers) \
                 as executor:
+
             for category in self.categories:
-                executor.map(dl_image, category.books)
+                try:
+                    executor.map(dl_image, category.books)
+                except Exception as err:
+                    print('error fetching image\n\n', err)
 
         executor.shutdown(wait=True)
         progress.close()

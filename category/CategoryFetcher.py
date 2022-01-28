@@ -8,6 +8,7 @@ class CategoryFetcher:
     """
         Create a category object containing book objects.
     """
+
     def __init__(self, app, url, session):
         self.app = app
         self.session = session
@@ -65,7 +66,7 @@ class CategoryFetcher:
                 fetcher = BookFetcher(my_link, self.session)
                 books.append(fetcher.exec())
             except Exception as err:
-                print(f'Error fetching {link} ({err})')
+                print(f'Error fetching {link} \n\n {err}')
 
         with concurrent\
                 .futures\
