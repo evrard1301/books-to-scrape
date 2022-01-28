@@ -18,7 +18,8 @@ class BookImageDownloader:
                 self.book.page.image_url, stream=True).content
             ext = self.book.page.image_url.split('/')[-1].split('.')[1]
             with open(os.path.join(self.output_dir,
-                                   self.book.info
+                                   self.book.info.universal_product_code
+                                   + '_' + self.book.info
                                             .title
                                             .replace('/', '_') + '.' + ext),
                       'wb') as file:
