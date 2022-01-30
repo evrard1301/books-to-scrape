@@ -1,5 +1,6 @@
 import concurrent.futures
 import os
+import time
 import requests
 from tqdm import tqdm
 from book import BookImageDownloader
@@ -42,11 +43,19 @@ class App:
         progress = tqdm(total=len(category_urls), desc='Load categories')
 
         def export_category(my_url, my_output_dir):
-            category = self.fetch_category(my_url)
-            progress.update(1)
-            categories.append(category)
-            self.export_category(category, my_output_dir)
-            self.books_count += len(category.books)
+            for i in range(0, self.config.failure_attempts):
+                try:
+                    category = self.fetch_category(my_url)
+                    progress.update(1)
+                    categories.append(category)
+                    self.export_category(category, my_output_dir)
+                    self.books_count += len(category.books)
+                    break
+                except Exception:
+                    print(
+                        f'error exporting category, retry {i + 1}/'
+                        + '{self.config.failure_attempts}')
+                    time.sleep(1)
 
         with concurrent\
                 .futures\

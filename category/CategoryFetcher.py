@@ -2,6 +2,8 @@ from bs4 import BeautifulSoup
 from book import BookFetcher
 from category import Category
 import concurrent.futures
+import time
+import colorama
 
 
 class CategoryFetcher:
@@ -62,11 +64,17 @@ class CategoryFetcher:
         books = []
 
         def get_book(my_link):
-            try:
-                fetcher = BookFetcher(my_link, self.session)
-                books.append(fetcher.exec())
-            except Exception as err:
-                print(f'Error fetching {link} \n\n {err}')
+            for i in range(0, self.app.config.failure_attempts):
+                try:
+                    fetcher = BookFetcher(my_link, self.session)
+                    books.append(fetcher.exec())
+                    break
+                except Exception as err:
+                    print('error fetching book', err)
+                    print(colorama.Fore.YELLOW,
+                          f'retrying {i+1}/{self.app.config.failure_attempts}')
+                    print(colorama.Style.RESET_ALL, end='', flush=True)
+                    time.sleep(1)
 
         with concurrent\
                 .futures\

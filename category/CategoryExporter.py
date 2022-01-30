@@ -6,6 +6,7 @@ class CategoryExporter:
     """
         Write a csv formatted file containing one entry per book.
     """
+
     def __init__(self, category):
         self.category = category
 
