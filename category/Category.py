@@ -2,6 +2,7 @@ class Category:
     """
         A named collection of books.
     """
+
     def __init__(self, name, url):
         self.name = name
         self.url = url

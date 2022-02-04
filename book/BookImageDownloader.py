@@ -1,6 +1,7 @@
 import os
 import time
 import colorama
+import string
 
 
 class BookImageDownloader:
@@ -18,6 +19,14 @@ class BookImageDownloader:
     def exec(self):
         nb_attempts = self.config.failure_attempts
         done = False
+        title_size_limit = 64
+
+        title = ''.join(
+            filter(lambda x: x not in string.punctuation, self.book.info.title))
+            
+        title = title.replace(' ', '_')
+        title = title[0:title_size_limit]
+
         for i in range(0, nb_attempts):
             try:
                 raw = self.session.get(
@@ -25,10 +34,7 @@ class BookImageDownloader:
                 ext = self.book.page.image_url.split('/')[-1].split('.')[1]
                 with open(os.path.join(self.output_dir,
                                        self.book.info.universal_product_code
-                                       + '_' + self.book.info
-                                                .title
-                                                .replace('/', '_') + '.'
-                                                                   + ext),
+                                       + '_' + title + '.' + ext),
                           'wb') as file:
                     file.write(raw)
                 done = True
