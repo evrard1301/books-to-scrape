@@ -22,8 +22,10 @@ class BookImageDownloader:
         title_size_limit = 64
 
         title = ''.join(
-            filter(lambda x: x not in string.punctuation, self.book.info.title))
-            
+            filter(
+                lambda x: x not in string.punctuation, self.book.info.title
+            ))
+
         title = title.replace(' ', '_')
         title = title[0:title_size_limit]
 
